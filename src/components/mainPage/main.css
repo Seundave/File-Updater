@@ -1,0 +1,150 @@
+/* main.css */
+.Container {
+  display: flex;
+  justify-content: space-between;
+  padding: 90px;
+}
+
+.section-A,
+.section-B {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.section-B {
+  margin-left: 20px;
+}
+
+.section-A > h1,
+.section-B > h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.faculty-select-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+select {
+  padding: 10px;
+  font-size: 13px;
+  border-radius: 5px;
+  font-family: "Montserrat", sans-serif;
+  outline: none;
+}
+
+.document-display {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  position: relative;
+  font-family: "Montserrat", sans-serif;
+}
+
+.delete-icon{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-button{
+  width:25px;
+  height: 25px;
+  color: rgb(114, 114, 118);
+}
+
+.button-class {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.download-class button,
+.upload-btn button {
+  padding: 10px 20px;
+  font-size: 13px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* .file-upload-title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+/* Media Queries for Responsiveness */
+
+/* For screen sizes between 768px and 991px */
+@media screen and (max-width: 991px) {
+  .Container {
+    flex-direction: column;
+  }
+
+  .section-B {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+}
+
+/* For screen sizes between 576px and 767px */
+@media screen and (max-width: 767px) {
+  .faculty-select-row {
+    flex-direction: column;
+  }
+
+  .document-display {
+    height: 150px;
+  }
+}
+
+/* For screen sizes below 576px */
+@media screen and (max-width: 575px) {
+  .Container {
+    padding: 10px;
+  }
+
+  .section-A,
+  .section-B {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  select {
+    font-size: 14px;
+  }
+
+  .document-display {
+    height: 120px;
+  }
+  .download-class button,
+  .upload-btn button {
+    width: 100%;
+  }
+  .button-class {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
