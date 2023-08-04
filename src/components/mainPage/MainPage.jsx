@@ -1,24 +1,23 @@
-import { useState, useRef, useEffect } from "react";
+import {useState, useRef, useEffect, useMemo} from "react";
 import React from "react";
-import { MdOutlineCancel } from "react-icons/md";
+import {MdOutlineCancel} from "react-icons/md";
 
 import "./main.css";
+import {getDepartments, getFacultyList} from "../../utils/util";
+import axios from "axios";
 
 const MainPage = () => {
   // State variables to store selected values
+  const [result, setResult] = useState();
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedFile, setSelectedFile] = useState();
   const [fileName, setFileName] = useState("");
+  const [facultyOptions, setFacultyOptions] = useState([]);
+  const [departmentOptions, setDepartmentOptions] = useState([]);
 
   // Arrays containing options for faculty and department labels
-  const facultyOptions = ["Select your faculty", "Art", "Technology", "Music"];
-  const departmentOptions = [
-    "Select your department",
-    "Music",
-    "Science",
-    "Electrical Engineering",
-  ];
+  // const facultyOptions = ["Select your faculty", "Art", "Technology", "Music"];
 
   const inputRef = useRef(null);
   // Event handlers for changing selections
@@ -38,27 +37,31 @@ const MainPage = () => {
 
   const handleUpload = () => {
     inputRef.current.click();
-    // if (selectedFile){
-    //     console.log("File selected:", selectedFile);
-    // }else{
-    //     console.log("Please select a file");
-    // }
   };
+  useMemo(() => {
+    console.log({selectedFaculty});
+    if (selectedFaculty) {
+      const departments = getDepartments(selectedFaculty, result);
+      setDepartmentOptions(departments.map((d) => d.trim()));
+    }
+  }, [selectedFaculty]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://items-excel.onrender.com/api/department/upload/all"
+          "https://items-excel.onrender.com/api/department/all"
         );
-        console.log({ response });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const jsonData = await response.json();
         console.log(jsonData);
+        setResult(jsonData.departments);
+        const faculty = getFacultyList(jsonData.departments);
         // setData(jsonData);
         // setLoading(false);
+        setFacultyOptions(faculty.map((d) => d.trim()));
       } catch (err) {
         console.log(err);
         // setError(err);
@@ -68,6 +71,31 @@ const MainPage = () => {
 
     fetchData();
   }, []);
+
+  const downloadDocument = async () => {
+    alert(1);
+    try {
+      if (selectedDepartment) {
+        const response = await axios.post(
+          "https://items-excel.onrender.com/api/department/generate-csv",
+          {department: selectedDepartment}
+        );
+        console.log({response});
+        // YOU WILL GET THE LINK TO DOWNLOAD IT FROM HERE
+        // if (!response.ok) {
+        //   throw new Error("Network response was not ok");
+        // }
+        const jsonData = await response.json();
+        console.log(jsonData);
+      } else {
+        alert("select a department");
+      }
+    } catch (err) {
+      console.log(err);
+      // setError(err);
+      // setLoading(false);
+    }
+  };
 
   const onDelete = () => {
     setSelectedFile("");
@@ -132,15 +160,13 @@ const MainPage = () => {
         </div>
         <div className="button-class">
           <div className="download-class">
-            <a href="icon.pdf" download={fileName}>
-              <button>Download Document</button>
-            </a>
+            <button onClick={downloadDocument}>Download Document</button>
           </div>
           <div className="upload-btn">
             <button onClick={handleUpload} onChange={handleFileChange}>
               Upload Document
             </button>
-            <input type="file" ref={inputRef} style={{ display: "none" }} />
+            <input type="file" ref={inputRef} style={{display: "none"}} />
           </div>
         </div>
       </div>
@@ -211,7 +237,7 @@ const MainPage = () => {
               type="file"
               ref={inputRef}
               onChange={handleFileChange}
-              style={{ display: "none" }}
+              style={{display: "none"}}
             />
           </div>
         </div>
