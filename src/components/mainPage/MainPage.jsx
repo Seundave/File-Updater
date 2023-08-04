@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import React from "react";
 import { MdOutlineCancel } from "react-icons/md";
 
@@ -44,6 +44,30 @@ const MainPage = () => {
     //     console.log("Please select a file");
     // }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://items-excel.onrender.com/api/department/upload/all"
+        );
+        console.log({ response });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const jsonData = await response.json();
+        console.log(jsonData);
+        // setData(jsonData);
+        // setLoading(false);
+      } catch (err) {
+        console.log(err);
+        // setError(err);
+        // setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const onDelete = () => {
     setSelectedFile("");
