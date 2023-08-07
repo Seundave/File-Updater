@@ -77,7 +77,8 @@ select {
 }
 
 .download-class button,
-.upload-btn button {
+.upload-btn button,
+.select-btn button {
   padding: 10px 20px;
   font-size: 13px;
   background-color: #007bff;
@@ -86,6 +87,12 @@ select {
   border-radius: 5px;
   cursor: pointer;
   font-family: "Montserrat", sans-serif;
+}
+.download-class button {
+  background-color: rgb(73, 212, 73);
+}
+.select-btn button {
+  background-color: rgb(15, 51, 76);
 }
 
 /* .file-upload-title{
@@ -142,11 +149,31 @@ select {
     height: 120px;
   }
   .download-class button,
-  .upload-btn button {
+  .upload-btn button,
+  .select-btn button {
     width: 100%;
   }
   .button-class {
     flex-direction: column;
     gap: 10px;
   }
+}
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.navbar-logo {
+  width: 40px; /* Adjust the logo width as needed */
+  height: 40px; /* Adjust the logo height as needed */
+  margin-right: 10px;
+}
+
+.navbar-title {
+  margin: 0;
+  font-size: 24px;
 }
