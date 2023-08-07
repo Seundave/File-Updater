@@ -1,8 +1,10 @@
 import {useState, useRef, useEffect, useMemo} from "react";
 import React from "react";
+import UploadList from "../uploadList/uploadList";
 import {MdOutlineCancel} from "react-icons/md";
 import Spinner from "../spinner/Spinner";
-
+import {toast, ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./main.css";
 import {getDepartments, getFacultyList} from "../../utils/util";
 import axios from "axios";
@@ -127,7 +129,7 @@ const MainPage = () => {
           "https://items-excel.onrender.com/api/department/generate-csv",
           {department: selectedDepartment}
         );
-
+        console.log({response});
         setDownloadLink(response.data.secure_url);
         setFileName(response.data.public_id);
         downloadFile(response.data.secure_url);
@@ -157,6 +159,7 @@ const MainPage = () => {
     document.body.removeChild(link);
     setLoading(false);
     alert("successfully downloaded the document");
+    setDownloadLink("");
   };
 
   const onDelete = () => {
@@ -231,10 +234,14 @@ const MainPage = () => {
 
           <div className="button-class">
             <div className="select-btn">
-              <button onChange={handleFileChange} onClick={handleUpload}>
-                Select Document
-              </button>
+              <button onClick={handleUpload}>Select Document</button>
               <input type="file" ref={inputRef} style={{display: "none"}} />
+              <input
+                type="file"
+                ref={inputRef}
+                onChange={handleFileChange}
+                style={{display: "none"}}
+              />
             </div>
             <div className="upload-btn">
               <button
@@ -250,7 +257,7 @@ const MainPage = () => {
 
         <div className="divider" />
 
-        <div className="section-B">
+        {/* <div className="section-B">
           <h1>ITeMS Query 2</h1>
           <div className="faculty-select-row">
             <select defaultValue="placeholder">
@@ -300,8 +307,10 @@ const MainPage = () => {
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
+
+      {/* <ToastContainer /> */}
     </div>
   );
 };
