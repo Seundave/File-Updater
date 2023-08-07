@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import {useState, useRef, useEffect, useMemo} from "react";
 import React from "react";
-import { MdOutlineCancel } from "react-icons/md";
+import {MdOutlineCancel} from "react-icons/md";
 import Spinner from "../spinner/Spinner";
 
 import "./main.css";
-import { getDepartments, getFacultyList } from "../../utils/util";
+import {getDepartments, getFacultyList} from "../../utils/util";
 import axios from "axios";
 
 const MainPage = () => {
@@ -33,7 +33,7 @@ const MainPage = () => {
       if (event.target.value) {
         const response = await axios.post(
           "https://items-excel.onrender.com/api/department/generate-csv",
-          { department: event.target.value }
+          {department: event.target.value}
         );
         console.log(response.data);
 
@@ -55,16 +55,43 @@ const MainPage = () => {
     setFileName(event.target.files[0].name);
   };
 
+  const handleFileUpload = async () => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      const fileName = `${selectedFile.name}_${Date.now()}`;
+      formData.append("file", selectedFile, fileName);
+      formData.append("upload_preset", "dev_setups"); // Replace with your upload preset name
+
+      try {
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/fakod29/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await response.json();
+        console.log({data});
+        // setUploadedFile(data.secure_url);
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+    }
+  };
+
   const handleUpload = () => {
     inputRef.current.click();
   };
   useMemo(() => {
-    console.log({ selectedFaculty });
+    console.log({selectedFaculty});
     if (selectedFaculty) {
       const departments = getDepartments(selectedFaculty, result);
       setDepartmentOptions(departments.map((d) => d.trim()));
     }
   }, [selectedFaculty]);
+  console.log(import.meta.env);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -151,11 +178,19 @@ const MainPage = () => {
               </button>
             </a>
           </div>
+          <div className="select-btn">
+            <button onChange={handleFileChange} onClick={handleUpload}>
+              Select Document
+            </button>
+            <input type="file" ref={inputRef} style={{display: "none"}} />
+          </div>
           <div className="upload-btn">
-            <button onClick={handleUpload} onChange={handleFileChange}>
+            <button
+              onClick={handleFileUpload}
+              disabled={selectedFile === null ? true : false}
+            >
               Upload Document
             </button>
-            <input type="file" ref={inputRef} style={{ display: "none" }} />
           </div>
         </div>
       </div>
@@ -208,7 +243,7 @@ const MainPage = () => {
               type="file"
               ref={inputRef}
               onChange={handleFileChange}
-              style={{ display: "none" }}
+              style={{display: "none"}}
             />
           </div>
         </div>
