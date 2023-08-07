@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import React from "react";
+import UploadList from "../uploadList/uploadList";
 import { MdOutlineCancel } from "react-icons/md";
 import Spinner from "../spinner/Spinner";
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./main.css";
 import { getDepartments, getFacultyList } from "../../utils/util";
 import axios from "axios";
@@ -213,6 +215,8 @@ const MainPage = () => {
           </div>
         </div>
       </div>
+      
+      {/* <ToastContainer /> */}
     </div>
   );
 };
