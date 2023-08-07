@@ -215,8 +215,8 @@ const MainPage = () => {
           </div>
         </div>
       </div>
-      <UploadList/>
-      <ToastContainer />
+      
+      {/* <ToastContainer /> */}
     </div>
   );
 };

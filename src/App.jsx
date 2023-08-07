@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import MainPage from './components/mainPage/MainPage'
+import UploadList from './components/uploadList/uploadList'
 // import Solution from './components/solution-UI/solution'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -11,6 +12,7 @@ function App() {
   return (
     <>
     <MainPage/>
+    <UploadList/>
      {/* <Solution/> */}
      
     </>

@@ -13,6 +13,7 @@ const uploadList = () => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+        console.log(response)
         const listData = await response.json();
         // const uploadData = data.push(jsonData)
         setData(listData);
