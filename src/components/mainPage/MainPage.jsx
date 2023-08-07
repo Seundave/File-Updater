@@ -34,7 +34,6 @@ const MainPage = () => {
   };
 
   const handleFileChange = (event) => {
-    console.log(event);
     setSelectedFile(event.target.files[0]);
     setFileName(event.target.files[0].name);
   };
@@ -235,7 +234,6 @@ const MainPage = () => {
           <div className="button-class">
             <div className="select-btn">
               <button onClick={handleUpload}>Select Document</button>
-              <input type="file" ref={inputRef} style={{display: "none"}} />
               <input
                 type="file"
                 ref={inputRef}
@@ -250,7 +248,6 @@ const MainPage = () => {
               >
                 Upload Document
               </button>
-              <input type="file" ref={inputRef} style={{display: "none"}} />
             </div>
           </div>
         </div>
