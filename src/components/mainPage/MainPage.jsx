@@ -75,6 +75,8 @@ const MainPage = () => {
 
           setSelectedDepartment("");
           setSelectedFaculty("");
+          setFileName("");
+          setSelectedFile("");
           alert("Thank you, data successfully uploaded ");
         }
 
@@ -91,10 +93,9 @@ const MainPage = () => {
     inputRef.current.click();
   };
   useMemo(() => {
-    console.log({selectedFaculty});
-    if (selectedFaculty) {
+    if (selectedFaculty && selectedFaculty !== "_select_") {
       const departments = getDepartments(selectedFaculty, result);
-      setDepartmentOptions(departments.map((d) => d.trim()));
+      setDepartmentOptions(["_select_", ...departments.map((d) => d.trim())]);
     }
   }, [selectedFaculty]);
 
@@ -108,10 +109,9 @@ const MainPage = () => {
           throw new Error("Network response was not ok");
         }
         const jsonData = await response.json();
-        console.log(jsonData);
         setResult(jsonData.departments);
         const faculty = getFacultyList(jsonData.departments);
-        setFacultyOptions(faculty.map((d) => d.trim()));
+        setFacultyOptions(["_select_", ...faculty.map((d) => d.trim())]);
       } catch (err) {
         console.log(err);
       }
@@ -122,7 +122,7 @@ const MainPage = () => {
 
   const downloadDocument = async () => {
     try {
-      if (selectedDepartment) {
+      if (selectedDepartment && selectedDepartment !== "_select_") {
         setLoading(true);
         const response = await axios.post(
           "https://items-excel.onrender.com/api/department/generate-csv",
@@ -163,6 +163,7 @@ const MainPage = () => {
 
   const onDelete = () => {
     setFileName("");
+    setSelectedFile("");
     setDownloadLink(null);
   };
 
@@ -232,23 +233,27 @@ const MainPage = () => {
           )}
 
           <div className="button-class">
-            <div className="select-btn">
-              <button onClick={handleUpload}>Select Document</button>
-              <input
-                type="file"
-                ref={inputRef}
-                onChange={handleFileChange}
-                style={{display: "none"}}
-              />
-            </div>
-            <div className="upload-btn">
-              <button
-                onClick={handleFileUpload}
-                disabled={selectedFile === null ? true : false}
-              >
-                Upload Document
-              </button>
-            </div>
+            {!selectedFile && (
+              <div className="select-btn">
+                <button onClick={handleUpload}>Select Document</button>
+                <input
+                  type="file"
+                  ref={inputRef}
+                  onChange={handleFileChange}
+                  style={{display: "none"}}
+                />
+              </div>
+            )}
+            {selectedFile && (
+              <div className="upload-btn">
+                <button
+                  onClick={handleFileUpload}
+                  disabled={selectedFile === null ? true : false}
+                >
+                  Upload Document
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
